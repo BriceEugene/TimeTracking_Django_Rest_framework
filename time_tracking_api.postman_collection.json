@@ -1,0 +1,1431 @@
+{
+	"info": {
+		"_postman_id": "568163b9-4d67-44d8-995c-020a2bbaa7fd",
+		"name": "time_tracking_api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24082341"
+	},
+	"item": [
+		{
+			"name": "payroll_time_period",
+			"item": [
+				{
+					"name": "GET",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{urlHost}}/api/payroll_time_period?workspace_id=1&user_id=1&start_time=2022-10-3 00:00:0",
+							"protocol": "http",
+							"host": [
+								"{{urlHost}}"
+							],
+							"path": [
+								"api",
+								"payroll_time_period"
+							],
+							"query": [
+								{
+									"key": "workspace_id",
+									"value": "1"
+								},
+								{
+									"key": "user_id",
+									"value": "1"
+								},
+								{
+									"key": "start_time",
+									"value": "2022-10-3 00:00:0"
+								},
+								{
+									"key": "stop_time",
+									"value": "2022-11-5 06:00:00",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "workspace_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "user_id",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "start_time",
+									"value": "2022-10-15 10:00:00",
+									"type": "text"
+								},
+								{
+									"key": "stop_time",
+									"value": "2022-10-15 16:00:00",
+									"type": "text"
+								},
+								{
+									"key": "start_gps",
+									"value": "47.117419",
+									"type": "text"
+								},
+								{
+									"key": "start_gps",
+									"value": "-88.582891",
+									"type": "text"
+								},
+								{
+									"key": "stop_gps",
+									"value": "46.3767763",
+									"type": "text"
+								},
+								{
+									"key": "stop_gps",
+									"value": "-87.2419578",
+									"type": "text"
+								},
+								{
+									"key": "approved",
+									"value": "True",
+									"type": "text"
+								},
+								{
+									"key": "note",
+									"value": "asdf",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://{{urlHost}}/api/payroll_time_period",
+							"protocol": "http",
+							"host": [
+								"{{urlHost}}"
+							],
+							"path": [
+								"api",
+								"payroll_time_period"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "user_id",
+									"value": "5",
+									"type": "text"
+								},
+								{
+									"key": "workspace_id",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "start_time",
+									"value": "2022-10-24 07:30:00",
+									"type": "text"
+								},
+								{
+									"key": "stop_time",
+									"value": "2022-10-24 16:00:00",
+									"type": "text"
+								},
+								{
+									"key": "start_gps",
+									"value": "46.3481965",
+									"type": "text"
+								},
+								{
+									"key": "start_gps",
+									"value": "-85.511620",
+									"type": "text"
+								},
+								{
+									"key": "stop_gps",
+									"value": "43.0980",
+									"type": "text"
+								},
+								{
+									"key": "stop_gps",
+									"value": "-84.56420",
+									"type": "text"
+								},
+								{
+									"key": "note",
+									"value": "asdf",
+									"type": "text"
+								},
+								{
+									"key": "id",
+									"value": "2",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "approved",
+									"value": "True",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://{{urlHost}}/api/payroll_time_period?id=1",
+							"protocol": "http",
+							"host": [
+								"{{urlHost}}"
+							],
+							"path": [
+								"api",
+								"payroll_time_period"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "payroll_report",
+			"item": [
+				{
+					"name": "GET",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{urlHost}}/api/payroll_report?start_time=2022-10-10 00:00&end_time=2022-10-29 17:14&workspace_id=1",
+							"protocol": "http",
+							"host": [
+								"{{urlHost}}"
+							],
+							"path": [
+								"api",
+								"payroll_report"
+							],
+							"query": [
+								{
+									"key": "start_time",
+									"value": "2022-10-10 00:00"
+								},
+								{
+									"key": "end_time",
+									"value": "2022-10-29 17:14"
+								},
+								{
+									"key": "workspace_id",
+									"value": "1"
+								},
+								{
+									"key": "approved",
+									"value": "True",
+									"disabled": true
+								},
+								{
+									"key": "user_ids[]",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "user_ids[]",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "user_ids[2]",
+									"value": "3",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "timetype",
+			"item": [
+				{
+					"name": "GET",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{urlHost}}/api/timetype?workspace_id=2",
+							"protocol": "http",
+							"host": [
+								"{{urlHost}}"
+							],
+							"path": [
+								"api",
+								"timetype"
+							],
+							"query": [
+								{
+									"key": "workspace_id",
+									"value": "2"
+								},
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Break/Lunch",
+									"type": "text"
+								},
+								{
+									"key": "workspace_id",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "work",
+									"type": "text"
+								},
+								{
+									"key": "pay_type",
+									"value": "unpaid",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://{{urlHost}}/api/timetype",
+							"protocol": "http",
+							"host": [
+								"{{urlHost}}"
+							],
+							"path": [
+								"api",
+								"timetype"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "vacation",
+									"type": "text"
+								},
+								{
+									"key": "workspace_id",
+									"value": "2",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "type",
+									"value": "vacation",
+									"type": "text"
+								},
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "pay_type",
+									"value": "Fixed",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://{{urlHost}}/api/timetype",
+							"protocol": "http",
+							"host": [
+								"{{urlHost}}"
+							],
+							"path": [
+								"api",
+								"timetype"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "work_time_period",
+			"item": [
+				{
+					"name": "GET",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "workspace_id",
+									"value": "1",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "user_id",
+									"value": "1",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "work_id",
+									"value": "1",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "start_time",
+									"value": "2022-10-23 17:14",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "stop_time",
+									"value": "2022-10-29 17:14",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://{{urlHost}}/api/work_time_period?workspace_id=2&stop_time=2022-10-27 10:14",
+							"protocol": "http",
+							"host": [
+								"{{urlHost}}"
+							],
+							"path": [
+								"api",
+								"work_time_period"
+							],
+							"query": [
+								{
+									"key": "workspace_id",
+									"value": "2"
+								},
+								{
+									"key": "user_id",
+									"value": "5",
+									"disabled": true
+								},
+								{
+									"key": "work_id",
+									"value": "78",
+									"disabled": true
+								},
+								{
+									"key": "start_time",
+									"value": "2022-10-20 17:14",
+									"disabled": true
+								},
+								{
+									"key": "stop_time",
+									"value": "2022-10-27 10:14"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "workspace_id",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "user_id",
+									"value": "3",
+									"type": "text"
+								},
+								{
+									"key": "timetype_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "start_time",
+									"value": "2022-10-24 07:30:00",
+									"type": "text"
+								},
+								{
+									"key": "stop_time",
+									"value": "2022-10-24 11:30:00",
+									"type": "text"
+								},
+								{
+									"key": "start_gps",
+									"value": "46.3481965",
+									"type": "text"
+								},
+								{
+									"key": "start_gps",
+									"value": "-85.5116205",
+									"type": "text"
+								},
+								{
+									"key": "stop_gps",
+									"value": "46.3481965",
+									"type": "text"
+								},
+								{
+									"key": "stop_gps",
+									"value": "-85.6116205",
+									"type": "text"
+								},
+								{
+									"key": "work_id",
+									"value": "78",
+									"type": "text"
+								},
+								{
+									"key": "approved",
+									"value": "False",
+									"type": "text"
+								},
+								{
+									"key": "mileage",
+									"value": "267",
+									"type": "text"
+								},
+								{
+									"key": "note",
+									"value": "abc",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://{{urlHost}}/api/work_time_period",
+							"protocol": "http",
+							"host": [
+								"{{urlHost}}"
+							],
+							"path": [
+								"api",
+								"work_time_period"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "workspace_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "user_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "timetype_id",
+									"value": "3",
+									"type": "text"
+								},
+								{
+									"key": "start_time",
+									"value": "2022-10-24 08:00:00",
+									"type": "text"
+								},
+								{
+									"key": "stop_time",
+									"value": "2022-10-24 10:30:00",
+									"type": "text"
+								},
+								{
+									"key": "start_gps",
+									"value": "47.11741",
+									"type": "text"
+								},
+								{
+									"key": "start_gps",
+									"value": "-88.58289",
+									"type": "text"
+								},
+								{
+									"key": "stop_gps",
+									"value": "46.376776",
+									"type": "text"
+								},
+								{
+									"key": "stop_gps",
+									"value": "-87.241957",
+									"type": "text"
+								},
+								{
+									"key": "work_id",
+									"value": "25",
+									"type": "text"
+								},
+								{
+									"key": "work_id",
+									"value": "1",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "approved",
+									"value": "True",
+									"type": "text"
+								},
+								{
+									"key": "mileage",
+									"value": "112",
+									"type": "text"
+								},
+								{
+									"key": "note",
+									"value": "Manager was late. Went over scope of work with manager",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://{{urlHost}}/api/work_time_period?id=1",
+							"protocol": "http",
+							"host": [
+								"{{urlHost}}"
+							],
+							"path": [
+								"api",
+								"work_time_period"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "crew",
+			"item": [
+				{
+					"name": "GET",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{urlHost}}/api/crew?workspace_id=2&foreman_user_id=4",
+							"protocol": "http",
+							"host": [
+								"{{urlHost}}"
+							],
+							"path": [
+								"api",
+								"crew"
+							],
+							"query": [
+								{
+									"key": "workspace_id",
+									"value": "2"
+								},
+								{
+									"key": "isActive",
+									"value": "True",
+									"disabled": true
+								},
+								{
+									"key": "foreman_user_id",
+									"value": "4"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "abc",
+									"type": "text"
+								},
+								{
+									"key": "workspace_id",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "foreman_user_id",
+									"value": "4",
+									"type": "text"
+								},
+								{
+									"key": "active",
+									"value": "True",
+									"type": "text"
+								},
+								{
+									"key": "crew_user_ids",
+									"value": "5",
+									"type": "text"
+								},
+								{
+									"key": "crew_user_ids",
+									"value": "6",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://{{urlHost}}/api/crew",
+							"protocol": "http",
+							"host": [
+								"{{urlHost}}"
+							],
+							"path": [
+								"api",
+								"crew"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "crew_name",
+									"value": "Brice_Group",
+									"type": "text"
+								},
+								{
+									"key": "workspace_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "foreman_user_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "crew_user_ids",
+									"value": "{1,2,3,4}",
+									"type": "text"
+								},
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "active",
+									"value": "False",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://{{urlHost}}/api/crew",
+							"protocol": "http",
+							"host": [
+								"{{urlHost}}"
+							],
+							"path": [
+								"api",
+								"crew"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "gps",
+			"item": [
+				{
+					"name": "POST",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "user_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "workspace_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "gps_point",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "gps_point",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "timestamp",
+									"value": "2022-10-27 17:14",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://{{urlHost}}/api/gps",
+							"protocol": "http",
+							"host": [
+								"{{urlHost}}"
+							],
+							"path": [
+								"api",
+								"gps"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{urlHost}}/api/gps",
+							"protocol": "http",
+							"host": [
+								"{{urlHost}}"
+							],
+							"path": [
+								"api",
+								"gps"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "http://{{urlHost}}/api/gps",
+							"protocol": "http",
+							"host": [
+								"{{urlHost}}"
+							],
+							"path": [
+								"api",
+								"gps"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "gps_path",
+			"item": [
+				{
+					"name": "GET",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{urlHost}}/api/gps_path?workspace_id=1&start_time=2022-10-25&stop_time=2022-10-27 18-00",
+							"protocol": "http",
+							"host": [
+								"{{urlHost}}"
+							],
+							"path": [
+								"api",
+								"gps_path"
+							],
+							"query": [
+								{
+									"key": "user_id",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "workspace_id",
+									"value": "1"
+								},
+								{
+									"key": "start_time",
+									"value": "2022-10-25"
+								},
+								{
+									"key": "stop_time",
+									"value": "2022-10-27 18-00"
+								},
+								{
+									"key": "",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "current_gps",
+			"item": [
+				{
+					"name": "GET",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{urlHost}}/api/current_gps?workspace_id=1",
+							"protocol": "http",
+							"host": [
+								"{{urlHost}}"
+							],
+							"path": [
+								"api",
+								"current_gps"
+							],
+							"query": [
+								{
+									"key": "workspace_id",
+									"value": "1"
+								},
+								{
+									"key": "user_id",
+									"value": "2",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "timesheet",
+			"item": [
+				{
+					"name": "GET",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "http://{{urlHost}}/api/time_sheet?workspace_id=2&user_id=4&start_time=10/24/2022 8:00:00&approved=True",
+							"protocol": "http",
+							"host": [
+								"{{urlHost}}"
+							],
+							"path": [
+								"api",
+								"time_sheet"
+							],
+							"query": [
+								{
+									"key": "workspace_id",
+									"value": "2"
+								},
+								{
+									"key": "user_id",
+									"value": "4"
+								},
+								{
+									"key": "start_time",
+									"value": "10/24/2022 8:00:00"
+								},
+								{
+									"key": "end_time",
+									"value": "10/24/2022 12:00:00",
+									"disabled": true
+								},
+								{
+									"key": "approved",
+									"value": "True"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "work_report",
+			"item": [
+				{
+					"name": "GET",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{urlHost}}/api/work_report?start_time=2022-10-24&end_time=2022-10-25&workspace_id=1&user_ids[]=1&user_ids[]=2",
+							"protocol": "http",
+							"host": [
+								"{{urlHost}}"
+							],
+							"path": [
+								"api",
+								"work_report"
+							],
+							"query": [
+								{
+									"key": "start_time",
+									"value": "2022-10-24"
+								},
+								{
+									"key": "end_time",
+									"value": "2022-10-25"
+								},
+								{
+									"key": "workspace_id",
+									"value": "1"
+								},
+								{
+									"key": "approved",
+									"value": "True",
+									"disabled": true
+								},
+								{
+									"key": "user_ids[]",
+									"value": "1"
+								},
+								{
+									"key": "user_ids[]",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "time_utilization",
+			"item": [
+				{
+					"name": "GET",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{urlHost}}/api/time_utilization?workspace_id=1&start_time=10/24/2022 8:00:00 AM&stop_time=10/26/2022 6:00:00 AM",
+							"protocol": "http",
+							"host": [
+								"{{urlHost}}"
+							],
+							"path": [
+								"api",
+								"time_utilization"
+							],
+							"query": [
+								{
+									"key": "workspace_id",
+									"value": "1"
+								},
+								{
+									"key": "stop_time",
+									"value": "10/26/2022 6:00:00",
+									"disabled": true
+								},
+								{
+									"key": "start_time",
+									"value": "10/24/2022 8:00:00 AM"
+								},
+								{
+									"key": "stop_time",
+									"value": "10/26/2022 6:00:00 AM"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "active_time",
+			"item": [
+				{
+					"name": "GET",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{urlHost}}/api/active_time?workspace_id=1",
+							"protocol": "http",
+							"host": [
+								"{{urlHost}}"
+							],
+							"path": [
+								"api",
+								"active_time"
+							],
+							"query": [
+								{
+									"key": "workspace_id",
+									"value": "1"
+								},
+								{
+									"key": "user_id",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "start_time",
+									"value": "2022-10-10",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "GET",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "POST",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "full_name",
+									"value": "abc def",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "abc@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "abc",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "admin",
+									"value": "False",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://{{urlHost}}/api/users",
+							"protocol": "http",
+							"host": [
+								"{{urlHost}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "10",
+									"type": "text"
+								},
+								{
+									"key": "full_name",
+									"value": "bbb",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "bbb@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "bb",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "bb",
+									"type": "text"
+								},
+								{
+									"key": "admin",
+									"value": "False",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://{{urlHost}}/api/users",
+							"protocol": "http",
+							"host": [
+								"{{urlHost}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "workspaces",
+			"item": [
+				{
+					"name": "POST",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "abc",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://{{urlHost}}/api/workspaces",
+							"protocol": "http",
+							"host": [
+								"{{urlHost}}"
+							],
+							"path": [
+								"api",
+								"workspaces"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{urlHost}}/api/workspaces?name=abc",
+							"protocol": "http",
+							"host": [
+								"{{urlHost}}"
+							],
+							"path": [
+								"api",
+								"workspaces"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "abc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "3",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "def",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://{{urlHost}}/api/workspaces",
+							"protocol": "http",
+							"host": [
+								"{{urlHost}}"
+							],
+							"path": [
+								"api",
+								"workspaces"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "urlHost",
+			"value": "timetracking.lexul.dev"
+		}
+	]
+}
