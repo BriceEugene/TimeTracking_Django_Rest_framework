@@ -17,4 +17,5 @@ urlpatterns = [
     path("payroll_report", views.PayrollReportView.as_view(), name="payroll_time"),
     path("users", views.UsersView.as_view(), name="users"),
     path("workspaces", views.WorkspacesView.as_view(), name="users"),
+    path("report_csv/<name>", views.ReportCSV.as_view(), name="report_csv"),
 ]

@@ -15,7 +15,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{urlHost}}/api/payroll_time_period?workspace_id=1&user_id=1&start_time=2022-10-3 00:00:0",
+							"raw": "http://{{urlHost}}/api/payroll_time_period?workspace_id=1&user_id=1&start_time=1668507715&stop_time=1668577715",
 							"protocol": "http",
 							"host": [
 								"{{urlHost}}"
@@ -35,12 +35,11 @@
 								},
 								{
 									"key": "start_time",
-									"value": "2022-10-3 00:00:0"
+									"value": "1668507715"
 								},
 								{
 									"key": "stop_time",
-									"value": "2022-11-5 06:00:00",
-									"disabled": true
+									"value": "1668577715"
 								}
 							]
 						}
@@ -67,13 +66,14 @@
 								},
 								{
 									"key": "start_time",
-									"value": "2022-10-15 10:00:00",
+									"value": "1668527893",
 									"type": "text"
 								},
 								{
 									"key": "stop_time",
-									"value": "2022-10-15 16:00:00",
-									"type": "text"
+									"value": "1668527993",
+									"type": "text",
+									"disabled": true
 								},
 								{
 									"key": "start_gps",
@@ -141,12 +141,12 @@
 								},
 								{
 									"key": "start_time",
-									"value": "2022-10-24 07:30:00",
+									"value": "1668527715",
 									"type": "text"
 								},
 								{
 									"key": "stop_time",
-									"value": "2022-10-24 16:00:00",
+									"value": "",
 									"type": "text"
 								},
 								{
@@ -218,7 +218,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{urlHost}}/api/payroll_report?start_time=2022-10-10 00:00&end_time=2022-10-29 17:14&workspace_id=1",
+							"raw": "http://{{urlHost}}/api/payroll_report?start_time=1666714000&end_time=1666764000&workspace_id=1",
 							"protocol": "http",
 							"host": [
 								"{{urlHost}}"
@@ -230,11 +230,11 @@
 							"query": [
 								{
 									"key": "start_time",
-									"value": "2022-10-10 00:00"
+									"value": "1666714000"
 								},
 								{
 									"key": "end_time",
-									"value": "2022-10-29 17:14"
+									"value": "1666764000"
 								},
 								{
 									"key": "workspace_id",
@@ -430,20 +430,20 @@
 								},
 								{
 									"key": "start_time",
-									"value": "2022-10-23 17:14",
+									"value": "1668107893",
 									"type": "text",
 									"disabled": true
 								},
 								{
 									"key": "stop_time",
-									"value": "2022-10-29 17:14",
+									"value": "1668507893",
 									"type": "text",
 									"disabled": true
 								}
 							]
 						},
 						"url": {
-							"raw": "http://{{urlHost}}/api/work_time_period?workspace_id=2&stop_time=2022-10-27 10:14",
+							"raw": "http://{{urlHost}}/api/work_time_period?workspace_id=2",
 							"protocol": "http",
 							"host": [
 								"{{urlHost}}"
@@ -469,12 +469,12 @@
 								},
 								{
 									"key": "start_time",
-									"value": "2022-10-20 17:14",
+									"value": "1668107893",
 									"disabled": true
 								},
 								{
 									"key": "stop_time",
-									"value": "2022-10-27 10:14"
+									"value": "1668707893"
 								}
 							]
 						}
@@ -496,7 +496,7 @@
 								},
 								{
 									"key": "user_id",
-									"value": "3",
+									"value": "1",
 									"type": "text"
 								},
 								{
@@ -506,13 +506,14 @@
 								},
 								{
 									"key": "start_time",
-									"value": "2022-10-24 07:30:00",
+									"value": "1668535931",
 									"type": "text"
 								},
 								{
 									"key": "stop_time",
-									"value": "2022-10-24 11:30:00",
-									"type": "text"
+									"value": "1668555931",
+									"type": "text",
+									"disabled": true
 								},
 								{
 									"key": "start_gps",
@@ -590,18 +591,19 @@
 								},
 								{
 									"key": "timetype_id",
-									"value": "3",
+									"value": "1",
 									"type": "text"
 								},
 								{
 									"key": "start_time",
-									"value": "2022-10-24 08:00:00",
+									"value": "1668507893",
 									"type": "text"
 								},
 								{
 									"key": "stop_time",
-									"value": "2022-10-24 10:30:00",
-									"type": "text"
+									"value": "1668527893",
+									"type": "text",
+									"disabled": true
 								},
 								{
 									"key": "start_gps",
@@ -853,7 +855,7 @@
 								},
 								{
 									"key": "timestamp",
-									"value": "2022-10-27 17:14",
+									"value": "1668537716",
 									"type": "text"
 								}
 							]
@@ -925,7 +927,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{urlHost}}/api/gps_path?workspace_id=1&start_time=2022-10-25&stop_time=2022-10-27 18-00",
+							"raw": "http://{{urlHost}}/api/gps_path?workspace_id=1&start_time=1666114000&stop_time=1666764000",
 							"protocol": "http",
 							"host": [
 								"{{urlHost}}"
@@ -946,11 +948,11 @@
 								},
 								{
 									"key": "start_time",
-									"value": "2022-10-25"
+									"value": "1666114000"
 								},
 								{
 									"key": "stop_time",
-									"value": "2022-10-27 18-00"
+									"value": "1666764000"
 								},
 								{
 									"key": "",
@@ -978,7 +980,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{urlHost}}/api/current_gps?workspace_id=1",
+							"raw": "http://{{urlHost}}/api/current_gps?workspace_id=1&user_id=2",
 							"protocol": "http",
 							"host": [
 								"{{urlHost}}"
@@ -994,8 +996,7 @@
 								},
 								{
 									"key": "user_id",
-									"value": "2",
-									"disabled": true
+									"value": "2"
 								}
 							]
 						}
@@ -1020,7 +1021,7 @@
 							"urlencoded": []
 						},
 						"url": {
-							"raw": "http://{{urlHost}}/api/time_sheet?workspace_id=2&user_id=4&start_time=10/24/2022 8:00:00&approved=True",
+							"raw": "http://{{urlHost}}/api/time_sheet?workspace_id=2&user_id=4&start_time=1666704000&end_time=1666764000&approved=True",
 							"protocol": "http",
 							"host": [
 								"{{urlHost}}"
@@ -1040,12 +1041,11 @@
 								},
 								{
 									"key": "start_time",
-									"value": "10/24/2022 8:00:00"
+									"value": "1666704000"
 								},
 								{
 									"key": "end_time",
-									"value": "10/24/2022 12:00:00",
-									"disabled": true
+									"value": "1666764000"
 								},
 								{
 									"key": "approved",
@@ -1067,7 +1067,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{urlHost}}/api/work_report?start_time=2022-10-24&end_time=2022-10-25&workspace_id=1&user_ids[]=1&user_ids[]=2",
+							"raw": "http://{{urlHost}}/api/work_report?start_time=1666164000&end_time=1666764000&workspace_id=1&user_ids[]=1&user_ids[]=2",
 							"protocol": "http",
 							"host": [
 								"{{urlHost}}"
@@ -1079,11 +1079,11 @@
 							"query": [
 								{
 									"key": "start_time",
-									"value": "2022-10-24"
+									"value": "1666164000"
 								},
 								{
 									"key": "end_time",
-									"value": "2022-10-25"
+									"value": "1666764000"
 								},
 								{
 									"key": "workspace_id",
@@ -1118,7 +1118,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{urlHost}}/api/time_utilization?workspace_id=1&start_time=10/24/2022 8:00:00 AM&stop_time=10/26/2022 6:00:00 AM",
+							"raw": "http://{{urlHost}}/api/time_utilization?workspace_id=1&start_time=1666742400&stop_time=1666764000",
 							"protocol": "http",
 							"host": [
 								"{{urlHost}}"
@@ -1133,17 +1133,17 @@
 									"value": "1"
 								},
 								{
-									"key": "stop_time",
-									"value": "10/26/2022 6:00:00",
-									"disabled": true
-								},
-								{
 									"key": "start_time",
-									"value": "10/24/2022 8:00:00 AM"
+									"value": "1666742400"
 								},
 								{
 									"key": "stop_time",
-									"value": "10/26/2022 6:00:00 AM"
+									"value": "1666764000"
+								},
+								{
+									"key": "stop_time",
+									"value": "1666764000",
+									"disabled": true
 								}
 							]
 						}
@@ -1161,7 +1161,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{urlHost}}/api/active_time?workspace_id=1",
+							"raw": "http://{{urlHost}}/api/active_time?workspace_id=1&start_time=1666742400",
 							"protocol": "http",
 							"host": [
 								"{{urlHost}}"
@@ -1182,8 +1182,7 @@
 								},
 								{
 									"key": "start_time",
-									"value": "2022-10-10",
-									"disabled": true
+									"value": "1666742400"
 								}
 							]
 						}

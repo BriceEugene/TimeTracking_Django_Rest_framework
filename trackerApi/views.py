@@ -1,13 +1,19 @@
 from django.http import JsonResponse
 from django.db.models import Q, Sum, F, Case, Value, When
 from django.db.models.functions import  Round
-from datetime import datetime
+from datetime import datetime, timezone
 from dateutil.parser import parse
 from rest_framework.views import APIView
 from .models import Payroll_time_period, TimeType, Workspaces, Work_time_period, Work, Gps, Crew, Users
 from .serializers import *
-from .utility import Epoch, distance
+from .utility import Epoch, distance, download_excel, make_json
 from django_postgres_timestamp_without_tz import DateTimeWithoutTZField
+import os
+import glob
+import  jpype
+import asposecells
+jpype.startJVM()
+from asposecells.api import Workbook
 
 class WorkspacesView(APIView):
     """
@@ -93,7 +99,10 @@ class GpsView(APIView):
     '''
     def get(self, request):
         queryset = Gps.objects.all()
-        serializer = GpsSerializer(queryset, many=True)
+        for row in queryset:
+            if row.timestamp:
+                row.timestamp = row.timestamp.replace(tzinfo=timezone.utc).timestamp()
+        serializer = GpsViewSerializer(queryset, many=True)
         return JsonResponse(serializer.data, safe=False)
 
     # @dev gps_point shows invalid parameter
@@ -104,7 +113,10 @@ class GpsView(APIView):
             user_id = request.data.get("user_id", None)
             workspace = Workspaces.objects.get(id=workspace_id)
             user = Users.objects.get(id=user_id)
-            serializer = GpsSerializer(data=request.data)
+            data = request.data.copy()
+            if request.data.get("timestamp"):
+                data["timestamp"] = datetime.utcfromtimestamp(int(request.data["timestamp"]))
+            serializer = GpsSerializer(data=data)
             if serializer.is_valid():
                 serializer.save(workspace=workspace, user=user)
                 return JsonResponse(serializer.data, safe=False)
@@ -121,7 +133,10 @@ class GpsView(APIView):
             if workspace_id:
                 workspace = Workspaces.objects.get(id=workspace_id)
             gps = Gps.objects.get(id=id)
-            serializer = GpsSerializer(gps, data=request.data)
+            data = request.data.copy()
+            if request.data.get("timestamp"):
+                data["timestamp"] = datetime.utcfromtimestamp(int(request.data["timestamp"]))
+            serializer = GpsSerializer(gps, data=data)
             if serializer.is_valid():
                 if user_id and workspace_id:
                     serializer.save(user=user, workspace=workspace)
@@ -148,7 +163,9 @@ class CurrentGpsView(APIView):
                 q &= Q(workspace_id=workspace_id)
             q &= Q(user_id=user_id)
             current_gps = Gps.objects.filter(q).order_by('-timestamp')[:1]
-            serializer = GpsSerializer(current_gps, many=True)
+            if current_gps:
+                current_gps[0].timestamp = current_gps[0].timestamp.replace(tzinfo=timezone.utc).timestamp()
+            serializer = GpsViewSerializer(current_gps, many=True)
             return JsonResponse(serializer.data, safe=False)
         else:
             result = []
@@ -160,7 +177,8 @@ class CurrentGpsView(APIView):
                 q &= Q(user_id=users[i].pk)
                 current_gps = Gps.objects.values().filter(q).order_by('-timestamp')[:1]
                 if current_gps:
-                    serializer = GpsSerializer(current_gps, many=True)
+                    current_gps[0]["timestamp"] = current_gps[0]["timestamp"].replace(tzinfo=timezone.utc).timestamp()
+                    serializer = GpsViewSerializer(current_gps, many=True)
                     result.append(serializer.data[0])
             return JsonResponse(result, safe=False)
 
@@ -181,10 +199,10 @@ class TimeSheet(APIView):
         if (user_id):
             q &= Q(user_id=user_id)
         if (start_time):
-            start_time = parse(start_time)
+            start_time = datetime.utcfromtimestamp(int(start_time))
             q &= Q(stop_time__gt=start_time)
         if (end_time):
-            end_time = parse(end_time)
+            end_time = datetime.utcfromtimestamp(int(end_time))
             q &= Q(start_time__lt=end_time)
         if (approved):
             q &= Q(approved=approved)
@@ -205,7 +223,7 @@ class TimeSheet(APIView):
             duration=Epoch(F("payroll_stop_time")-F("payroll_start_time"))
         ).filter(q))
         for row in payroll:
-            row["work_time_period"] = list(Work_time_period.objects.annotate(
+            tmp = list(Work_time_period.objects.annotate(
                 worktime_start_time=Case(
                     When(start_time__lt=row["payroll_start_time"], then=row["payroll_start_time"]),
                     default=F("start_time"),
@@ -225,8 +243,15 @@ class TimeSheet(APIView):
                 start_time__lt=row["payroll_stop_time"],
                 approved=row["approved"]
             ))
+            for i in range(len(tmp)):
+                tmp[i]["worktime_start_time"] = int(tmp[i]["worktime_start_time"].replace(tzinfo=timezone.utc).timestamp())
+                tmp[i]["worktime_stop_time"] = int(tmp[i]["worktime_stop_time"].replace(tzinfo=timezone.utc).timestamp())
             row.pop("payroll_start_time")
             row.pop("payroll_stop_time")
+            row["start_time"] = int(row["start_time"].replace(tzinfo=timezone.utc).timestamp())
+            row["stop_time"] = int(row["stop_time"].replace(tzinfo=timezone.utc).timestamp())
+            row["work_time_period"] = tmp
+        make_json(payroll, "time_sheet.json")
         return JsonResponse(payroll, safe=False)
 
 class GpsPathView(APIView):
@@ -244,19 +269,20 @@ class GpsPathView(APIView):
         stop_time = request.query_params.get('stop_time', None)
         workspace_id = request.query_params.get('workspace_id', None)
 
-        if user_id is not None:
+        if user_id:
             q &= Q(user_id = user_id)
-        if start_time is not None:
-            start_time = parse(start_time)
+        if start_time:
+            start_time = datetime.utcfromtimestamp(int(start_time))
             q &= Q(timestamp__gte = start_time)
-        if stop_time is not None:
-            stop_time = parse(stop_time)
+        if stop_time:
+            stop_time = datetime.utcfromtimestamp(int(stop_time))
             q &= Q(timestamp__lte = stop_time)
-        if workspace_id is not None:
+        if workspace_id:
             q &= Q(workspace_id = workspace_id)
-            
         queryset = Gps.objects.filter(q)
-        serializer = GpsSerializer(queryset, many=True)
+        for row in queryset:
+            row.timestamp = row.timestamp.replace(tzinfo=timezone.utc).timestamp()
+        serializer = GpsViewSerializer(queryset, many=True)
 
         return JsonResponse(serializer.data, safe=False)
 
@@ -275,10 +301,10 @@ class PayrollReportView(APIView):
         end_time = request.query_params.get("end_time", None)
         approved = request.query_params.get("approved", None)
         if start_time:
-            start_time = parse(start_time)
+            start_time = datetime.utcfromtimestamp(int(start_time))
             q &= Q(stop_time__gt=start_time)
         if end_time:
-            end_time = parse(end_time)
+            end_time = datetime.utcfromtimestamp(int(end_time))
             q &= Q(start_time__lt=end_time)
         if user_ids:
             q &= Q(user_id__in=user_ids)
@@ -349,6 +375,7 @@ class PayrollReportView(APIView):
                     worktime.append(timetype_item)
             if worktime:
                 result.append(worktime)
+        make_json(result, "payroll_report.json")
         return JsonResponse(result, safe=False)
 
 class PayrollTimePeriodView(APIView):
@@ -368,14 +395,18 @@ class PayrollTimePeriodView(APIView):
             q &= Q(workspace_id=workspace_id)
         start_time = request.query_params.get('start_time', None)
         if start_time:
-            start_time = parse(start_time)
+            start_time = datetime.utcfromtimestamp(int(start_time))
             q &= Q(start_time__gte=start_time)
         stop_time = request.query_params.get('stop_time', None)
         if stop_time:
-            stop_time = parse(stop_time)
+            stop_time = datetime.utcfromtimestamp(int(stop_time))
             q &= Q(stop_time__lte=stop_time)
         payrolls = Payroll_time_period.objects.filter(q)
-        serializer = PayrollTimePeriodSerializer(payrolls, many=True)
+        for row in payrolls:
+            row.start_time = row.start_time.replace(tzinfo=timezone.utc).timestamp() 
+            if row.stop_time:
+                row.stop_time = row.stop_time.replace(tzinfo=timezone.utc).timestamp()
+        serializer = PayrollTimePeriodViewSerializer(payrolls, many=True)
         return JsonResponse(serializer.data, safe=False)
 
     # POST
@@ -386,7 +417,12 @@ class PayrollTimePeriodView(APIView):
             user_id = request.data.get('user_id', None)
             workspace = Workspaces.objects.get(id=workspace_id)
             user = Users.objects.get(id=user_id)
-            serializer = PayrollTimePeriodSerializer(data=request.data)        
+            data = request.data.copy()
+            if request.data.get("start_time"):
+                data["start_time"] = datetime.utcfromtimestamp(int(request.data["start_time"]))
+            if request.data.get("stop_time"):
+                data["stop_time"] = datetime.utcfromtimestamp(int(request.data["stop_time"]))
+            serializer = PayrollTimePeriodSerializer(data=data)        
             if serializer.is_valid():
                 serializer.save(workspace=workspace, user=user)
                 return JsonResponse(serializer.data, safe=False)
@@ -409,7 +445,12 @@ class PayrollTimePeriodView(APIView):
                 payroll.stop_gps = None
             if start_gps == None:
                 payroll.start_gps = None
-            serializer = PayrollTimePeriodSerializer(payroll, data=request.data)
+            data = request.data.copy()
+            if request.data.get("start_time"):
+                data["start_time"] = datetime.utcfromtimestamp(int(request.data["start_time"]))
+            if request.data.get("stop_time"):
+                data["stop_time"] = datetime.utcfromtimestamp(int(request.data["stop_time"]))
+            serializer = PayrollTimePeriodSerializer(payroll, data=data)
             if serializer.is_valid():
                 serializer.save(workspace=workspace,user=user)
                 return JsonResponse(serializer.data, safe=False)
@@ -484,14 +525,18 @@ class WorkTimePeriodView(APIView):
             q &= Q(work_id=work_id)
         start_time = request.query_params.get('start_time', None)
         if start_time:
-            start_time = parse(start_time)
+            start_time = datetime.utcfromtimestamp(int(start_time))
             q &= Q(start_time__gte=start_time)
         stop_time = request.query_params.get('stop_time', None)
         if stop_time:
-            stop_time = parse(stop_time)
+            stop_time = datetime.utcfromtimestamp(int(stop_time))
             q &= Q(stop_time__lte=stop_time)       
         workrolls = Work_time_period.objects.filter(q)
-        serializer = WorkTimePeriodSerializer(workrolls, many=True)
+        for row in workrolls:
+            row.start_time = row.start_time.replace(tzinfo=timezone.utc).timestamp() 
+            if row.stop_time:
+                row.stop_time = row.stop_time.replace(tzinfo=timezone.utc).timestamp()
+        serializer = PayrollTimePeriodViewSerializer(workrolls, many=True)
         return JsonResponse(serializer.data, safe=False)
     #POST
     def post(self, request):
@@ -502,7 +547,12 @@ class WorkTimePeriodView(APIView):
             workspace = Workspaces.objects.get(id=workspace_id)
             timetype = TimeType.objects.get(id=timetype_id)
             user = Users.objects.get(id=user_id)
-            serializer = WorkTimePeriodSerializer(data=request.data)
+            data = request.data.copy()
+            if request.data.get("start_time"):
+                data["start_time"] = datetime.utcfromtimestamp(int(request.data["start_time"]))
+            if request.data.get("stop_time"):
+                data["stop_time"] = datetime.utcfromtimestamp(int(request.data["stop_time"]))
+            serializer = WorkTimePeriodSerializer(data=data)
             if serializer.is_valid():
                 serializer.save(workspace=workspace, timetype=timetype, user=user)
                 return JsonResponse(serializer.data, safe=False)
@@ -526,7 +576,12 @@ class WorkTimePeriodView(APIView):
                 worktime.stop_gps = None
             if start_gps == None:
                 worktime.start_gps = None
-            serializer = WorkTimePeriodSerializer(worktime, data=request.data)
+            data = request.data.copy()
+            if request.data.get("start_time"):
+                data["start_time"] = datetime.utcfromtimestamp(int(request.data["start_time"]))
+            if request.data.get("stop_time"):
+                data["stop_time"] = datetime.utcfromtimestamp(int(request.data["stop_time"]))
+            serializer = WorkTimePeriodSerializer(worktime, data=data)
             if serializer.is_valid():
                 serializer.save(workspace=workspace, timetype=timetype, user=user)
                 return JsonResponse(serializer.data, safe=False)
@@ -549,10 +604,10 @@ class WorkReportView(APIView):
         end_time = request.query_params.get("end_time", None)
         approved = request.query_params.get("approved", None)
         if start_time:
-            start_time = parse(start_time)
+            start_time = datetime.utcfromtimestamp(int(start_time))
             q &= Q(stop_time__gt=start_time)
         if end_time:
-            end_time = parse(end_time)
+            end_time = datetime.utcfromtimestamp(int(end_time))
             q &= Q(start_time__lt=end_time)
         if user_ids:
             q &= Q(user_id__in=user_ids)
@@ -606,6 +661,7 @@ class WorkReportView(APIView):
                 if work_time[j]["start_gps"] and work_time[j]["stop_gps"]:
                     tmp["TimeType" + str(timetype.id)]["distance"] = distance(work_time[j]["start_gps"], work_time[j]["stop_gps"])
                 result.append(tmp)
+        make_json(result, "work_report.json")
         return JsonResponse(result, safe=False)
 
 class TimeUtilizationView(APIView):
@@ -642,10 +698,10 @@ class TimeUtilizationView(APIView):
         start_time = request.query_params.get("start_time", None)
         stop_time = request.query_params.get("stop_time", None)
         if start_time:
-            start_time = parse(start_time)
+            start_time = datetime.utcfromtimestamp(int(start_time))
             q &= Q(stop_time__gt=start_time)
         if stop_time:
-            stop_time = parse(stop_time)
+            stop_time = datetime.utcfromtimestamp(int(stop_time))
             q &= Q(start_time__lt=stop_time)
         if workspace_id:
             q &= Q(workspace_id=workspace_id)
@@ -664,6 +720,7 @@ class TimeUtilizationView(APIView):
                 result[i]["user"] = payroll_data[i].user.full_name
                 timetype = TimeType.objects.get(id=tmp[j]["timetype_id"])
                 result[i][timetype.name] = tmp[j]["duration"]
+        make_json(result, "time_utilization.json")
         return JsonResponse(result, safe=False)
 
 class ActiveTimeView(APIView):  
@@ -694,7 +751,7 @@ class ActiveTimeView(APIView):
             if user_id:
                 q &= Q(user_id=user_id)
             if start_time:
-                start_time = parse(start_time)
+                start_time = datetime.utcfromtimestamp(int(start_time))
                 q &= Q(start_time__gte=start_time)
             q &= Q(stop_time=None)
             data = self.get_active_time_worktime(q)
@@ -709,6 +766,7 @@ class ActiveTimeView(APIView):
                         else:
                             if tmp.count(j) == 0:
                                 tmp.append(j)
+            tmp.sort(reverse=True)
             for i in tmp:
                 data.pop(i)
             for item in data1:
@@ -718,9 +776,14 @@ class ActiveTimeView(APIView):
                         flag = 1
                         if data[i]["log_time"] < item["log_time"]:
                             data.pop(i)
+                            item["log_time"] = item["log_time"]
                             data.append(item)
                 if flag == 0:
-                    data.append(item)                                
+                    data.append(item)
+            for row in data:
+                tmp = parse(row["log_time"])
+                row["log_time"] = int(tmp.replace(tzinfo=timezone.utc).timestamp())
+            make_json(data, "active_time.json")
             return JsonResponse(data, safe=False)
         except Exception as e:
             return JsonResponse(str(e), safe=False)
@@ -764,3 +827,24 @@ class UsersView(APIView):
             return JsonResponse(serializer.errors, safe=False)
         except Exception as e:
             return JsonResponse(str(e), safe=False)
+
+class ReportCSV(APIView):
+    def get(self, request, name):
+        excel_dest = 'downloads/report_api_excel/'
+        isExist = os.path.exists(excel_dest)
+        if not isExist:
+            os.makedirs(excel_dest)
+        files = glob.glob('downloads/report_api_json/*', recursive=True)
+        for single_file in files:
+            with open(single_file, 'r') as f:
+                try:
+                    if f.name.find(name) != -1:
+                        file_name = f.name[26:-5]
+                        workbook = Workbook(f.name)
+                        workbook.save(excel_dest + file_name + ".xlsx")
+                        response = download_excel(request, excel_dest + file_name + ".xlsx", file_name)
+                        return response
+                except KeyError:
+                    print(f'Skipping {single_file}')
+        return JsonResponse("Not Found", safe=False)
+        

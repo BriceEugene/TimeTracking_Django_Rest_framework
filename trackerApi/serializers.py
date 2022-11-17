@@ -34,6 +34,20 @@ class PayrollTimePeriodSerializer(serializers.ModelSerializer):
     class Meta:
         model = Payroll_time_period
         fields = ("id","workspace_id", "user_id", "start_time", "stop_time", "start_gps", "stop_gps", "approved", "note")
+
+class PayrollTimePeriodViewSerializer(serializers.ModelSerializer):
+    class Meta:
+        start_time = serializers.IntegerField()
+        stop_time = serializers.IntegerField()
+        model = Payroll_time_period
+        fields = ("id","workspace_id", "user_id", "start_time", "stop_time", "start_gps", "stop_gps", "approved", "note")
+
+class PayrollTimePeriodViewSerializer(serializers.ModelSerializer):
+    start_time = serializers.IntegerField()
+    stop_time = serializers.IntegerField()
+    class Meta:
+        model = Payroll_time_period
+        fields = ("id","workspace_id", "user_id", "start_time", "stop_time", "start_gps", "stop_gps", "approved", "note")
 """
     Work Time Period Serializer
 """
@@ -55,6 +69,12 @@ class WorkSerializer(serializers.ModelSerializer):
 """
 class GpsSerializer(serializers.ModelSerializer):
     # gps_point = serializers.ListField(child=serializers.FloatField(), allow_empty=False)
+    class Meta:
+        model = Gps
+        fields = ("id", "user_id", "workspace_id", "gps_point", "timestamp")
+
+class GpsViewSerializer(serializers.ModelSerializer):
+    timestamp = serializers.IntegerField()
     class Meta:
         model = Gps
         fields = ("id", "user_id", "workspace_id", "gps_point", "timestamp")

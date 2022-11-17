@@ -10,3 +10,4 @@ tzdata==2022.5
 haversine==2.7.0
 django-postgres-timestamp-without-tz
 python-dateutil
+aspose-cells
