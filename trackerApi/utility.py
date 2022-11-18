@@ -13,10 +13,13 @@ def distance(loc1, loc2):
      data = hs.haversine(loc1,loc2, unit=Unit.MILES)
      return data
 
-def download_excel(request, file, file_name):
+def download_excel(request, file, file_name, type):
     path_to_file = os.path.realpath(file)
     response = FileResponse(open(path_to_file, 'rb'))
-    response['Content-Disposition'] = 'inline; filename=' + file_name + ".xlsx"
+    if type == "csv":
+        response['Content-Disposition'] = 'inline; filename=' + file_name + ".csv"
+    else:
+        response['Content-Disposition'] = 'inline; filename=' + file_name + ".xlsx"
     return response
 
 def make_json(data, file_name):

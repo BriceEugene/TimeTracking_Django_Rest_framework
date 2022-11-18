@@ -131,12 +131,12 @@
 							"urlencoded": [
 								{
 									"key": "user_id",
-									"value": "5",
+									"value": "1",
 									"type": "text"
 								},
 								{
 									"key": "workspace_id",
-									"value": "2",
+									"value": "1",
 									"type": "text"
 								},
 								{
@@ -188,7 +188,7 @@
 							]
 						},
 						"url": {
-							"raw": "http://{{urlHost}}/api/payroll_time_period?id=1",
+							"raw": "http://{{urlHost}}/api/payroll_time_period?id=14",
 							"protocol": "http",
 							"host": [
 								"{{urlHost}}"
@@ -200,7 +200,7 @@
 							"query": [
 								{
 									"key": "id",
-									"value": "1"
+									"value": "14"
 								}
 							]
 						}
@@ -411,32 +411,32 @@
 							"mode": "urlencoded",
 							"urlencoded": [
 								{
-									"key": "workspace_id",
-									"value": "1",
+									"key": "",
+									"value": "",
 									"type": "text",
 									"disabled": true
 								},
 								{
-									"key": "user_id",
-									"value": "1",
+									"key": "",
+									"value": "",
 									"type": "text",
 									"disabled": true
 								},
 								{
-									"key": "work_id",
-									"value": "1",
+									"key": "",
+									"value": "",
 									"type": "text",
 									"disabled": true
 								},
 								{
-									"key": "start_time",
-									"value": "1668107893",
+									"key": "",
+									"value": "",
 									"type": "text",
 									"disabled": true
 								},
 								{
-									"key": "stop_time",
-									"value": "1668507893",
+									"key": "",
+									"value": "",
 									"type": "text",
 									"disabled": true
 								}
@@ -469,12 +469,13 @@
 								},
 								{
 									"key": "start_time",
-									"value": "1668107893",
+									"value": "1668535931",
 									"disabled": true
 								},
 								{
 									"key": "stop_time",
-									"value": "1668707893"
+									"value": "1668535931",
+									"disabled": true
 								}
 							]
 						}
@@ -900,10 +901,36 @@
 						"header": [],
 						"body": {
 							"mode": "urlencoded",
-							"urlencoded": []
+							"urlencoded": [
+								{
+									"key": "user_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "workspace_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "gps_point",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "gps_point",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "timestamp",
+									"value": "1668537716",
+									"type": "text"
+								}
+							]
 						},
 						"url": {
-							"raw": "http://{{urlHost}}/api/gps",
+							"raw": "http://{{urlHost}}/api/gps?id=10",
 							"protocol": "http",
 							"host": [
 								"{{urlHost}}"
@@ -911,6 +938,12 @@
 							"path": [
 								"api",
 								"gps"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "10"
+								}
 							]
 						}
 					},
@@ -1393,6 +1426,204 @@
 							"path": [
 								"api",
 								"workspaces"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "report_csv",
+			"item": [
+				{
+					"name": "work_report",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{urlHost}}/api/report_csv/work_report",
+							"protocol": "http",
+							"host": [
+								"{{urlHost}}"
+							],
+							"path": [
+								"api",
+								"report_csv",
+								"work_report"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "time_utilization",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{urlHost}}/api/report_csv/time_utilization",
+							"protocol": "http",
+							"host": [
+								"{{urlHost}}"
+							],
+							"path": [
+								"api",
+								"report_csv",
+								"time_utilization"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "payroll_report",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "time_sheet",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{urlHost}}/api/report_csv/time_sheet",
+							"protocol": "http",
+							"host": [
+								"{{urlHost}}"
+							],
+							"path": [
+								"api",
+								"report_csv",
+								"time_sheet"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "active_time",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{urlHost}}/api/report_csv/active_time",
+							"protocol": "http",
+							"host": [
+								"{{urlHost}}"
+							],
+							"path": [
+								"api",
+								"report_csv",
+								"active_time"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "report_xlsx",
+			"item": [
+				{
+					"name": "work_report",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{urlHost}}/api/report_xlsx/work_report",
+							"protocol": "http",
+							"host": [
+								"{{urlHost}}"
+							],
+							"path": [
+								"api",
+								"report_xlsx",
+								"work_report"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "time_utilization",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{urlHost}}/api/report_xlsx/time_utilization",
+							"protocol": "http",
+							"host": [
+								"{{urlHost}}"
+							],
+							"path": [
+								"api",
+								"report_xlsx",
+								"time_utilization"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "payroll_report",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{urlHost}}/api/report_xlsx/payroll_report",
+							"protocol": "http",
+							"host": [
+								"{{urlHost}}"
+							],
+							"path": [
+								"api",
+								"report_xlsx",
+								"payroll_report"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "time_sheet",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{urlHost}}/api/report_xlsx/time_sheet",
+							"protocol": "http",
+							"host": [
+								"{{urlHost}}"
+							],
+							"path": [
+								"api",
+								"report_xlsx",
+								"time_sheet"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "active_time",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{urlHost}}/api/report_xlsx/active_time",
+							"protocol": "http",
+							"host": [
+								"{{urlHost}}"
+							],
+							"path": [
+								"api",
+								"report_xlsx",
+								"active_time"
 							]
 						}
 					},

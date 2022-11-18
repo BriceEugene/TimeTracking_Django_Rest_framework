@@ -13,7 +13,7 @@ import glob
 import  jpype
 import asposecells
 jpype.startJVM()
-from asposecells.api import Workbook
+from asposecells.api import Workbook, SaveFormat
 
 class WorkspacesView(APIView):
     """
@@ -119,7 +119,12 @@ class GpsView(APIView):
             serializer = GpsSerializer(data=data)
             if serializer.is_valid():
                 serializer.save(workspace=workspace, user=user)
-                return JsonResponse(serializer.data, safe=False)
+                tmp = {}
+                for item in serializer.data:
+                    tmp[item] = serializer.data[item]
+                if tmp["timestamp"]:
+                    tmp["timestamp"] = int(parse(tmp["timestamp"]).replace(tzinfo=timezone.utc).timestamp())
+                return JsonResponse(tmp, safe=False)
             return JsonResponse(serializer.errors, safe=False)
         except Exception as e:
             return JsonResponse(str(e), safe=False)
@@ -144,7 +149,12 @@ class GpsView(APIView):
                     serializer.save(user=user)
                 elif workspace_id:
                     serializer.save(workspace=workspace)
-                return JsonResponse(serializer.data, safe=False)
+                tmp = {}
+                for item in serializer.data:
+                    tmp[item] = serializer.data[item]
+                if tmp["timestamp"]:
+                    tmp["timestamp"] = int(parse(tmp["timestamp"]).replace(tzinfo=timezone.utc).timestamp())
+                return JsonResponse(tmp, safe=False)
             return JsonResponse(serializer.errors, safe=False)
         except Exception as e:
             return JsonResponse(str(e), safe=False)
@@ -422,10 +432,17 @@ class PayrollTimePeriodView(APIView):
                 data["start_time"] = datetime.utcfromtimestamp(int(request.data["start_time"]))
             if request.data.get("stop_time"):
                 data["stop_time"] = datetime.utcfromtimestamp(int(request.data["stop_time"]))
-            serializer = PayrollTimePeriodSerializer(data=data)        
+            serializer = PayrollTimePeriodSerializer(data=data)
             if serializer.is_valid():
                 serializer.save(workspace=workspace, user=user)
-                return JsonResponse(serializer.data, safe=False)
+                tmp = {}
+                for item in serializer.data:
+                    tmp[item] = serializer.data[item]
+                if tmp["start_time"]:
+                    tmp["start_time"] = int(parse(tmp["start_time"]).replace(tzinfo=timezone.utc).timestamp())
+                if tmp["stop_time"]:
+                    tmp["stop_time"] = int(parse(tmp["stop_time"]).replace(tzinfo=timezone.utc).timestamp())
+                return JsonResponse(tmp, safe=False)
             return JsonResponse(serializer.errors, safe=False)
         except Exception as e:
             return JsonResponse(str(e), safe=False)
@@ -453,7 +470,14 @@ class PayrollTimePeriodView(APIView):
             serializer = PayrollTimePeriodSerializer(payroll, data=data)
             if serializer.is_valid():
                 serializer.save(workspace=workspace,user=user)
-                return JsonResponse(serializer.data, safe=False)
+                tmp = {}
+                for item in serializer.data:
+                    tmp[item] = serializer.data[item]
+                if tmp["start_time"]:
+                    tmp["start_time"] = int(parse(tmp["start_time"]).replace(tzinfo=timezone.utc).timestamp())
+                if tmp["stop_time"]:
+                    tmp["stop_time"] = int(parse(tmp["stop_time"]).replace(tzinfo=timezone.utc).timestamp())
+                return JsonResponse(tmp, safe=False)
             return JsonResponse(serializer.errors, safe=False)
         except Exception as e:
             return JsonResponse(str(e), safe=False)
@@ -555,7 +579,14 @@ class WorkTimePeriodView(APIView):
             serializer = WorkTimePeriodSerializer(data=data)
             if serializer.is_valid():
                 serializer.save(workspace=workspace, timetype=timetype, user=user)
-                return JsonResponse(serializer.data, safe=False)
+                tmp = {}
+                for item in serializer.data:
+                    tmp[item] = serializer.data[item]
+                if tmp["start_time"]:
+                    tmp["start_time"] = int(parse(tmp["start_time"]).replace(tzinfo=timezone.utc).timestamp())
+                if tmp["stop_time"]:
+                    tmp["stop_time"] = int(parse(tmp["stop_time"]).replace(tzinfo=timezone.utc).timestamp())
+                return JsonResponse(tmp, safe=False)
             return JsonResponse(serializer.errors, safe=False)
         except Exception as e:
             return JsonResponse(str(e), safe=False)
@@ -584,7 +615,14 @@ class WorkTimePeriodView(APIView):
             serializer = WorkTimePeriodSerializer(worktime, data=data)
             if serializer.is_valid():
                 serializer.save(workspace=workspace, timetype=timetype, user=user)
-                return JsonResponse(serializer.data, safe=False)
+                tmp = {}
+                for item in serializer.data:
+                    tmp[item] = serializer.data[item]
+                if tmp["start_time"]:
+                    tmp["start_time"] = int(parse(tmp["start_time"]).replace(tzinfo=timezone.utc).timestamp())
+                if tmp["stop_time"]:
+                    tmp["stop_time"] = int(parse(tmp["stop_time"]).replace(tzinfo=timezone.utc).timestamp())
+                return JsonResponse(tmp, safe=False)
             
             return JsonResponse(serializer.errors, safe=False)
         except Exception as e:
@@ -841,10 +879,29 @@ class ReportCSV(APIView):
                     if f.name.find(name) != -1:
                         file_name = f.name[26:-5]
                         workbook = Workbook(f.name)
-                        workbook.save(excel_dest + file_name + ".xlsx")
-                        response = download_excel(request, excel_dest + file_name + ".xlsx", file_name)
+                        workbook.save(excel_dest + file_name + ".csv", SaveFormat.CSV)
+                        response = download_excel(request, excel_dest + file_name + ".csv", file_name, type="csv")
                         return response
                 except KeyError:
                     print(f'Skipping {single_file}')
         return JsonResponse("Not Found", safe=False)
         
+class ReportXlsx(APIView):
+    def get(self, request, name):
+        excel_dest = 'downloads/report_api_excel/'
+        isExist = os.path.exists(excel_dest)
+        if not isExist:
+            os.makedirs(excel_dest)
+        files = glob.glob('downloads/report_api_json/*', recursive=True)
+        for single_file in files:
+            with open(single_file, 'r') as f:
+                try:
+                    if f.name.find(name) != -1:
+                        file_name = f.name[26:-5]
+                        workbook = Workbook(f.name)
+                        workbook.save(excel_dest + file_name + ".xlsx")
+                        response = download_excel(request, excel_dest + file_name + ".xlsx", file_name, type="xlsx")
+                        return response
+                except KeyError:
+                    print(f'Skipping {single_file}')
+        return JsonResponse("Not Found", safe=False)
